@@ -1,0 +1,18 @@
+#!/usr/bin/env php
+<?php
+
+use App\Kernel;
+use Gorynych\Util\CommandLoader;
+use Gorynych\Util\Debug;
+use Symfony\Component\Console\Application;
+
+require dirname(__DIR__) . '/config/bootstrap.php';
+
+Debug::cli();
+
+$application = new Application();
+$container = (new Kernel())->boot()->getContainer();
+
+(new CommandLoader())->load($application, $container);
+
+$application->run();

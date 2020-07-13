@@ -1,0 +1,10 @@
+App\Domain\Entity\Client:
+  attributes:
+    id:
+      groups: ['read']
+    firstname:
+      groups: ['read']
+    lastname:
+      groups: ['read']
+    email:
+      groups: ['read']

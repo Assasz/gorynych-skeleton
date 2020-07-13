@@ -1,0 +1,9 @@
+App\Domain\Entity\Client:
+  properties:
+    firstname:
+      - NotBlank: ~
+    lastname:
+      - NotBlank: ~
+    email:
+      - NotBlank: ~
+      - Email: ~

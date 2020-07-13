@@ -1,0 +1,115 @@
+openapi: 3.0.0
+info:
+  title: 'Hello World API'
+  version: 0.1.0
+paths:
+  /clients:
+    get:
+      tags:
+        - Client
+      summary: 'Retrieves Client collection resource.'
+      responses:
+        '200':
+          description: 'The Client collection resource.'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Client'
+    post:
+      tags:
+        - Client
+      summary: 'Inserts new Client item into collection resource.'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        '201':
+          description: 'Inserted Client resource IRI.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientIri'
+  '/clients/{id}':
+    get:
+      tags:
+        - Client
+      summary: 'Retrieves given Client resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'The Client resource.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Client'
+    put:
+      tags:
+        - Client
+      summary: 'Replaces given Client resource with new one.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Client'
+      responses:
+        '200':
+          description: 'Replaced Client resource IRI.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientIri'
+    delete:
+      tags:
+        - Client
+      summary: 'Removes given Client resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: 'The Client resource is removed.'
+components:
+  schemas:
+    Client:
+      properties:
+        id:
+          type: integer
+          readOnly: true
+          example: '1'
+        firstname:
+          type: string
+          example: John
+        lastname:
+          type: string
+          example: Doe
+        email:
+          type: string
+          example: john@doe.com
+      type: object
+    ClientIri:
+      properties:
+        client:
+          type: string
+          example: /clients/1
+      type: object

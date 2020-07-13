@@ -1,0 +1,8 @@
+resources:
+  App\Application\Resource\Client\ClientCollectionResource:
+    - App\Ports\Operation\ClientCollection\GetOperation
+    - App\Ports\Operation\ClientCollection\InsertOperation
+  App\Application\Resource\Client\ClientResource:
+    - App\Ports\Operation\Client\GetOperation
+    - App\Ports\Operation\Client\RemoveOperation
+    - App\Ports\Operation\Client\ReplaceOperation

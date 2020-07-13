@@ -1,0 +1,3 @@
+formatters:
+  '*/*': Gorynych\Http\Formatter\JsonFormatter
+  application/json: Gorynych\Http\Formatter\JsonFormatter

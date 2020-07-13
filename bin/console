@@ -11,7 +11,7 @@ require dirname(__DIR__) . '/config/bootstrap.php';
 Debug::cli();
 
 $application = new Application();
-$container = (new Kernel())->boot()->getContainer();
+$container = (new Kernel())->boot($_ENV['APP_ENV'] ?? 'dev')->getContainer();
 
 (new CommandLoader())->load($application, $container);
 

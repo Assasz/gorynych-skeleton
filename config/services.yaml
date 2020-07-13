@@ -13,6 +13,7 @@ services:
     resource: '../src/*'
     exclude:
       - '../src/Domain'
+      - '../src/Infrastructure/Dto'
 
   # make resources and operations accessible from container
   # as they can be loaded in runtime by Gorynych

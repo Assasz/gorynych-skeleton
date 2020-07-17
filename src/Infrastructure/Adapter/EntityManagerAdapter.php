@@ -109,9 +109,6 @@ final class EntityManagerAdapter implements EntityManagerAdapterInterface, Persi
         return count($fixtures);
     }
 
-    /**
-     * @return EntityManagerInterface
-     */
     public function getManager(): EntityManagerInterface
     {
         return $this->entityManager;

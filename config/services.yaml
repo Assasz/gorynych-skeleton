@@ -28,3 +28,5 @@ services:
   entity_manager.adapter:
     class: App\Infrastructure\Adapter\EntityManagerAdapter
     public: true
+
+  Gorynych\Adapter\EntityManagerAdapterInterface: '@App\Infrastructure\Adapter\EntityManagerAdapter'

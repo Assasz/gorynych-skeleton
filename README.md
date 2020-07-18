@@ -25,7 +25,7 @@ Set up test environment:
 
 ```
 # .env.test
-DATABASE_URL='mysql://user:secret@localhost/mydb_test'
+DATABASE_URL='sqlite://${PROJECT_DIR}/var/sqlite/db_test.sqlite'
 BASE_URI='http://localhost'
 ```
 

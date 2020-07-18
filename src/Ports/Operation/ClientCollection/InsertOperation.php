@@ -6,7 +6,6 @@ namespace App\Ports\Operation\ClientCollection;
 
 use App\Domain\Entity\Client;
 use App\Application\Resource\Client\ClientCollectionResource;
-use App\Infrastructure\Dto\ClientIri;
 use Gorynych\Operation\AbstractOperation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,8 +21,18 @@ use Symfony\Component\HttpFoundation\Response;
  *     @OA\Response(
  *         response="201",
  *         description="Inserted Client resource IRI.",
- *         @OA\JsonContent(ref="#/components/schemas/ClientIri"),
- *     )
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="object",
+ *                 example={"@id":"/clients/1"},
+ *             ),
+ *         ),
+ *     ),
+ *     @OA\Response(
+ *         response="400",
+ *         description="Bad request.",
+ *     ),
  * )
  */
 final class InsertOperation extends AbstractOperation
@@ -57,9 +66,9 @@ final class InsertOperation extends AbstractOperation
 
     /**
      * @param Request $request
-     * @return ClientIri
+     * @return string[]
      */
-    public function __invoke(Request $request): ClientIri
+    public function __invoke(Request $request): array
     {
         /** @var Client $client */
         $client = $this->deserializeBody($request, Client::class);
@@ -67,6 +76,6 @@ final class InsertOperation extends AbstractOperation
         $this->validate($client, 'Client');
         $this->resource->insert($client);
 
-        return new ClientIri($client);
+        return $this->iriRepresentation($client);
     }
 }

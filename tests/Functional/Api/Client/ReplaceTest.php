@@ -1,0 +1,56 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Functional\Api\Client;
+
+use App\Domain\Entity\Client;
+use Gorynych\Generator\EntityMock;
+use Gorynych\Http\KernelClient;
+use Gorynych\Testing\ApiTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+class ReplaceTest extends ApiTestCase
+{
+    private const ENDPOINT_URI = '/clients/1';
+
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        static::$entityManager->loadFixtures(['clients.yaml']);
+    }
+
+    public function testStructure(): void
+    {
+        $entityMock = EntityMock::create(Client::class);
+
+        static::$client->request(Request::METHOD_PUT, self::ENDPOINT_URI, [
+                KernelClient::JSON_BODY => (array)$entityMock
+            ]
+        );
+
+        $this->assertStatusCodeSame(Response::HTTP_OK);
+        $this->assertArrayHasKey('@id', static::normalizeResponse());
+        $this->assertSame(self::ENDPOINT_URI, static::normalizeResponse()['@id']);
+    }
+
+    public function testReplaced(): void
+    {
+        $entityMock = EntityMock::create(Client::class);
+
+        static::$client->request(Request::METHOD_PUT, self::ENDPOINT_URI, [
+                KernelClient::JSON_BODY => (array)$entityMock
+            ]
+        );
+
+        static::$client->request(Request::METHOD_GET, self::ENDPOINT_URI);
+
+        $responseBody = static::normalizeResponse();
+        array_shift($responseBody);
+
+        $this->assertMatchesItemJsonSchema(Client::class);
+        $this->assertSame((array)$entityMock, $responseBody);
+    }
+}

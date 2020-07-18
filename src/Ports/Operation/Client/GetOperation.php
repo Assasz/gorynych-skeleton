@@ -17,13 +17,23 @@ use Symfony\Component\HttpFoundation\Request;
  *         name="id",
  *         in="path",
  *         required=true,
- *         @OA\Schema(type="integer")
+ *         @OA\Schema(type="integer"),
  *     ),
  *     @OA\Response(
  *         response="200",
  *         description="The Client resource.",
- *         @OA\JsonContent(ref="#/components/schemas/Client"),
- *     )
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="object",
+ *                 ref="#/components/schemas/Client",
+ *             ),
+ *         ),
+ *     ),
+ *     @OA\Response(
+ *         response="404",
+ *         description="Resource not found.",
+ *     ),
  * )
  */
 final class GetOperation extends AbstractOperation

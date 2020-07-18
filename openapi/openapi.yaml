@@ -14,9 +14,9 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Client'
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/Client' } }
+                type: object
     post:
       tags:
         - Client
@@ -32,7 +32,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientIri'
+                properties:
+                  data: { type: object, example: { '@id': /clients/1 } }
+                type: object
+        '400':
+          description: 'Bad request.'
   '/clients/{id}':
     get:
       tags:
@@ -51,7 +55,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
+                properties:
+                  data: { type: object, $ref: '#/components/schemas/Client' }
+                type: object
+        '404':
+          description: 'Resource not found.'
     put:
       tags:
         - Client
@@ -74,7 +82,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ClientIri'
+                properties:
+                  data: { type: object, example: { '@id': /clients/1 } }
+                type: object
+        '400':
+          description: 'Bad request.'
+        '404':
+          description: 'Resource not found.'
     delete:
       tags:
         - Client
@@ -89,6 +103,8 @@ paths:
       responses:
         '204':
           description: 'The Client resource is removed.'
+        '404':
+          description: 'Resource not found.'
 components:
   schemas:
     Client:
@@ -106,10 +122,4 @@ components:
         email:
           type: string
           example: john@doe.com
-      type: object
-    ClientIri:
-      properties:
-        client:
-          type: string
-          example: /clients/1
       type: object

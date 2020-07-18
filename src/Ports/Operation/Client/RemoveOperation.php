@@ -18,12 +18,16 @@ use Symfony\Component\HttpFoundation\Response;
  *         name="id",
  *         in="path",
  *         required=true,
- *         @OA\Schema(type="integer")
+ *         @OA\Schema(type="integer"),
  *     ),
  *     @OA\Response(
  *         response="204",
  *         description="The Client resource is removed.",
- *     )
+ *     ),
+ *     @OA\Response(
+ *         response="404",
+ *         description="Resource not found.",
+ *     ),
  * )
  */
 final class RemoveOperation extends AbstractOperation

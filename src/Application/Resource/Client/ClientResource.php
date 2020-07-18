@@ -75,6 +75,9 @@ class ClientResource extends AbstractResource implements ResourceInterface
             throw new UnprocessableEntityHttpException();
         }
 
+        /** @var Client $item */
+        $item->setId((int)$this->id);
+
         $this->persister->replace($item);
         $this->save();
     }

@@ -6,7 +6,6 @@ namespace App\Ports\Operation\Client;
 
 use App\Domain\Entity\Client;
 use App\Application\Resource\Client\ClientResource;
-use App\Infrastructure\Dto\ClientIri;
 use Gorynych\Operation\AbstractOperation;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,7 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
  *         name="id",
  *         in="path",
  *         required=true,
- *         @OA\Schema(type="integer")
+ *         @OA\Schema(type="integer"),
  *     ),
  *     @OA\RequestBody(
  *         @OA\JsonContent(ref="#/components/schemas/Client"),
@@ -27,8 +26,22 @@ use Symfony\Component\HttpFoundation\Request;
  *     @OA\Response(
  *         response="200",
  *         description="Replaced Client resource IRI.",
- *         @OA\JsonContent(ref="#/components/schemas/ClientIri"),
- *     )
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="object",
+ *                 example={"@id":"/clients/1"},
+ *             ),
+ *         ),
+ *     ),
+ *     @OA\Response(
+ *         response="400",
+ *         description="Bad request.",
+ *     ),
+ *     @OA\Response(
+ *         response="404",
+ *         description="Resource not found.",
+ *     ),
  * )
  */
 final class ReplaceOperation extends AbstractOperation
@@ -54,19 +67,16 @@ final class ReplaceOperation extends AbstractOperation
 
     /**
      * @param Request $request
-     * @return ClientIri
+     * @return string[]
      */
-    public function __invoke(Request $request): ClientIri
+    public function __invoke(Request $request): array
     {
-        $client = $this->resource->retrieve();
-
         /** @var Client $newClient */
         $newClient = $this->deserializeBody($request, Client::class);
-        $newClient->setId($client->getId());
 
         $this->validate($newClient, 'Client');
         $this->resource->replace($newClient);
 
-        return new ClientIri($newClient);
+        return $this->iriRepresentation();
     }
 }

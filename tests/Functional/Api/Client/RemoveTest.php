@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Tests\Functional\Api\Client;
 
-use App\Domain\Entity\Client;
 use Gorynych\Testing\ApiTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class GetTest extends ApiTestCase
+class RemoveTest extends ApiTestCase
 {
     private const ENDPOINT_URI = '/clients/1';
 
@@ -22,9 +21,16 @@ class GetTest extends ApiTestCase
 
     public function testStructure(): void
     {
+        static::$client->request(Request::METHOD_DELETE, self::ENDPOINT_URI);
+
+        $this->assertStatusCodeSame(Response::HTTP_NO_CONTENT);
+    }
+
+    public function testRemoved(): void
+    {
+        static::$client->request(Request::METHOD_DELETE, self::ENDPOINT_URI);
         static::$client->request(Request::METHOD_GET, self::ENDPOINT_URI);
 
-        $this->assertStatusCodeSame(Response::HTTP_OK);
-        $this->assertMatchesItemJsonSchema(Client::class);
+        $this->assertStatusCodeSame(Response::HTTP_NOT_FOUND);
     }
 }

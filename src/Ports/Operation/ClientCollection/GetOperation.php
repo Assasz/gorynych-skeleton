@@ -16,10 +16,14 @@ use Symfony\Component\HttpFoundation\Request;
  *     @OA\Response(
  *         response="200",
  *         description="The Client collection resource.",
- *         @OA\JsonContent(type="array",
- *             @OA\Items(ref="#/components/schemas/Client")
+ *         @OA\JsonContent(
+ *             @OA\Property(
+ *                 property="data",
+ *                 type="array",
+ *                 @OA\Items(ref="#/components/schemas/Client"),
+ *             ),
  *         ),
- *     )
+ *     ),
  * )
  */
 final class GetOperation extends AbstractOperation

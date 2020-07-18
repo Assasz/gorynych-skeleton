@@ -6,6 +6,7 @@ namespace App\Tests\Functional\Api\ClientCollection;
 
 use App\Domain\Entity\Client;
 use Gorynych\Testing\ApiTestCase;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class GetTest extends ApiTestCase
@@ -16,14 +17,14 @@ class GetTest extends ApiTestCase
     {
         parent::setUp();
 
-        $this->entityManager->loadFixtures(['clients.yaml']);
+        static::$entityManager->loadFixtures(['clients.yaml']);
     }
 
     public function testStructure(): void
     {
-        $response = $this->client->request('GET', self::ENDPOINT_URI);
+        static::$client->request(Request::METHOD_GET, self::ENDPOINT_URI);
 
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertMatchesCollectionJsonSchema($response, Client::class);
+        $this->assertStatusCodeSame(Response::HTTP_OK);
+        $this->assertMatchesCollectionJsonSchema(Client::class);
     }
 }

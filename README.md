@@ -42,3 +42,19 @@ Generate basic API for existing resources:
 ```
 php bin/console gorynych:generate-api [resourceNamespace]
 ```
+
+With this command, Gorynych will generate for you:
+* resource operations performing 
+basic `GET`, `POST`, `PUT`, `DELETE` actions: `App\Ports\Operation`
+* API test cases for above 
+operations: `App\Tests\Functional\Api`
+* test fixtures: `config/fixtures`
+* Open API documentation: `openapi/openapi.yaml`
+
+Try it yourself ;)
+
+```
+rm -rf src/Ports/Operation/* && rm -rf tests/Functional/Api
+php bin/console gorynych:generate-api App\Application\Resource
+./vendor/bin/phpunit
+```

@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Api\ClientCollection;
 
 use App\Domain\Entity\Client;
-use Gorynych\Generator\EntityMock;
 use Gorynych\Http\KernelClient;
 use Gorynych\Testing\ApiTestCase;
+use Gorynych\Testing\EntityMock;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 

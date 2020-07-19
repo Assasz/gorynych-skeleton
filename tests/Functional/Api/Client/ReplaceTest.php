@@ -47,10 +47,7 @@ class ReplaceTest extends ApiTestCase
 
         static::$client->request(Request::METHOD_GET, self::ENDPOINT_URI);
 
-        $responseBody = static::normalizeResponse();
-        array_shift($responseBody);
-
         $this->assertMatchesItemJsonSchema(Client::class);
-        $this->assertSame((array)$entityMock, $responseBody);
+        $this->assertContainsSubset($entityMock);
     }
 }

@@ -47,10 +47,7 @@ class InsertTest extends ApiTestCase
 
         static::$client->request(Request::METHOD_GET, static::normalizeResponse()['@id']);
 
-        $responseBody = static::normalizeResponse();
-        array_shift($responseBody);
-
         $this->assertMatchesItemJsonSchema(Client::class);
-        $this->assertSame((array)$entityMock, $responseBody);
+        $this->assertContainsSubset($entityMock);
     }
 }

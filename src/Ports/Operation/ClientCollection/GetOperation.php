@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Ports\Operation\ClientCollection;
 
 use App\Application\Resource\Client\ClientCollectionResource;
+use Cake\Collection\Collection;
 use Gorynych\Operation\AbstractOperation;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -47,12 +48,8 @@ final class GetOperation extends AbstractOperation
         return '/';
     }
 
-    /**
-     * @param Request $request
-     * @return mixed[]
-     */
-    public function __invoke(Request $request): array
+    public function __invoke(Request $request): Collection
     {
-        return $this->normalizeResource($this->resource->retrieve()->toList());
+        return $this->resource->retrieve();
     }
 }

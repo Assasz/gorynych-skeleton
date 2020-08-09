@@ -58,7 +58,7 @@ class ClientCollectionResource extends AbstractResource implements CollectionRes
     /**
      * {@inheritdoc}
      */
-    public function replace($item): void
+    public function replace($item): string
     {
         throw new \LogicException('Not implemented.');
     }
@@ -67,14 +67,17 @@ class ClientCollectionResource extends AbstractResource implements CollectionRes
      * {@inheritdoc}
      * @throws UnprocessableEntityHttpException
      */
-    public function insert($item): void
+    public function insert($item): string
     {
         if (false === $this->supports($item)) {
             throw new UnprocessableEntityHttpException();
         }
 
+        /** @var Client $item */
         $this->persister->persist($item);
         $this->save();
+
+        return $this->getPath() . $item->getId();
     }
 
     /**

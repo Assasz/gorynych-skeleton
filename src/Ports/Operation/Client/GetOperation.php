@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Ports\Operation\Client;
 
 use App\Application\Resource\Client\ClientResource;
+use App\Domain\Entity\Client;
 use Gorynych\Operation\AbstractOperation;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -57,12 +58,8 @@ final class GetOperation extends AbstractOperation
         return '/';
     }
 
-    /**
-     * @param Request $request
-     * @return mixed[]
-     */
-    public function __invoke(Request $request): array
+    public function __invoke(Request $request): Client
     {
-        return $this->normalizeResource($this->resource->retrieve());
+        return $this->resource->retrieve();
     }
 }

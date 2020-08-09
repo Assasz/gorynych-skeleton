@@ -69,7 +69,7 @@ class ClientResource extends AbstractResource implements ResourceInterface
      * {@inheritdoc}
      * @throws UnprocessableEntityHttpException
      */
-    public function replace($item): void
+    public function replace($item): string
     {
         if (false === $this->supports($item)) {
             throw new UnprocessableEntityHttpException();
@@ -80,6 +80,8 @@ class ClientResource extends AbstractResource implements ResourceInterface
 
         $this->persister->replace($item);
         $this->save();
+
+        return $this->getPath();
     }
 
     /**

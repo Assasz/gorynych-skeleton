@@ -7,7 +7,6 @@ namespace App\Ports\Operation\Client;
 use App\Domain\Entity\Client;
 use App\Application\Resource\Client\ClientResource;
 use Gorynych\Operation\AbstractOperation;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * @OA\Put(
@@ -66,17 +65,10 @@ final class ReplaceOperation extends AbstractOperation
     }
 
     /**
-     * @param Request $request
      * @return string[]
      */
-    public function __invoke(Request $request): array
+    public function __invoke(Client $newClient): array
     {
-        /** @var Client $newClient */
-        $newClient = $this->deserializeBody($request, Client::class);
-
-        $this->validate($newClient, 'Client');
-        $this->resource->replace($newClient);
-
-        return $this->iriRepresentation();
+        return ['@id' => $this->resource->replace($newClient)];
     }
 }

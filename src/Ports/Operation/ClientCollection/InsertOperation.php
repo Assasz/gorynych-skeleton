@@ -7,7 +7,6 @@ namespace App\Ports\Operation\ClientCollection;
 use App\Domain\Entity\Client;
 use App\Application\Resource\Client\ClientCollectionResource;
 use Gorynych\Operation\AbstractOperation;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -65,17 +64,10 @@ final class InsertOperation extends AbstractOperation
     }
 
     /**
-     * @param Request $request
      * @return string[]
      */
-    public function __invoke(Request $request): array
+    public function __invoke(Client $client): array
     {
-        /** @var Client $client */
-        $client = $this->deserializeBody($request, Client::class);
-
-        $this->validate($client, 'Client');
-        $this->resource->insert($client);
-
-        return $this->iriRepresentation($client);
+        return ['@id' => $this->resource->insert($client)];
     }
 }

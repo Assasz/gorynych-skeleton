@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping\Driver\SimplifiedYamlDriver;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\Tools\Setup;
 use Gorynych\Adapter\EntityManagerAdapterInterface;
+use Gorynych\Util\EnvAccess;
 use Nelmio\Alice\Loader\NativeLoader;
 use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 
@@ -93,7 +94,7 @@ final class EntityManagerAdapter implements EntityManagerAdapterInterface, Persi
     {
         $files = array_map(
             static function (string $fileName): string {
-                return $_ENV['PROJECT_DIR'] . '/config/fixtures/' . $fileName;
+                return EnvAccess::get('PROJECT_DIR') . '/config/fixtures/' . $fileName;
             },
             $files
         );
@@ -117,16 +118,11 @@ final class EntityManagerAdapter implements EntityManagerAdapterInterface, Persi
     /**
      * @throws \Doctrine\DBAL\DBALException
      * @throws \Doctrine\ORM\ORMException
-     * @throws \RuntimeException
      */
     private function setup(): void
     {
-        if (false === array_key_exists('DATABASE_URL', $_ENV)) {
-            throw new \RuntimeException('Variable DATABASE_URL need to be defined in .env file.');
-        }
-
         $entityNamespace = 'App\Domain\Entity';
-        $mappingPath = "{$_ENV['PROJECT_DIR']}/config/orm";
+        $mappingPath = EnvAccess::get('PROJECT_DIR') . '/config/orm';
 
         $driver = new SimplifiedYamlDriver([$mappingPath => $entityNamespace]);
 
@@ -135,7 +131,7 @@ final class EntityManagerAdapter implements EntityManagerAdapterInterface, Persi
         $config->addEntityNamespace('Entity', $entityNamespace);
         $config->setNamingStrategy(new UnderscoreNamingStrategy());
 
-        $connection = DriverManager::getConnection(['url' => $_ENV['DATABASE_URL']], $config);
+        $connection = DriverManager::getConnection(['url' => EnvAccess::get('DATABASE_URL')], $config);
         $this->entityManager = EntityManager::create($connection, $config);
     }
 }

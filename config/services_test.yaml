@@ -13,7 +13,6 @@ services:
     resource: '../src/*'
     exclude:
       - '../src/Domain'
-      - '../src/Infrastructure/Dto'
 
   entity_manager.adapter:
     class: App\Infrastructure\Adapter\EntityManagerAdapter

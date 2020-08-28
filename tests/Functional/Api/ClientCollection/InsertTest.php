@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Functional\Api\ClientCollection;
 
 use App\Domain\Entity\Client;
-use Gorynych\Http\KernelClient;
+use Gorynych\Http\RequestFactory;
 use Gorynych\Testing\ApiTestCase;
 use Gorynych\Testing\EntityMock;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +27,7 @@ class InsertTest extends ApiTestCase
         $entityMock = EntityMock::create(Client::class);
 
         static::$client->request(Request::METHOD_POST, self::ENDPOINT_URI, [
-                KernelClient::JSON_BODY => (array)$entityMock
+                RequestFactory::REQUEST_JSON => (array) $entityMock
             ]
         );
 
@@ -41,7 +41,7 @@ class InsertTest extends ApiTestCase
         $entityMock = EntityMock::create(Client::class);
 
         static::$client->request(Request::METHOD_POST, self::ENDPOINT_URI, [
-                KernelClient::JSON_BODY => (array)$entityMock
+                RequestFactory::REQUEST_JSON => (array) $entityMock
             ]
         );
 

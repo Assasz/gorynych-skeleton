@@ -2,6 +2,10 @@ App\Domain\Entity\Client:
   type: entity
   repositoryClass: App\Infrastructure\Repository\ClientRepository
   table: clients
+  oneToMany:
+    transactions:
+      targetEntity: Transaction
+      mappedBy: client
   id:
     id:
       type: integer

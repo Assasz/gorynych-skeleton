@@ -1,0 +1,8 @@
+include:
+  - clients.yaml
+
+App\Domain\Entity\Transaction:
+  transaction_{1..5}:
+    id: ABC<current()>
+    title: <title()>
+    client: '@client_1'

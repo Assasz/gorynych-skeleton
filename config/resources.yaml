@@ -6,3 +6,10 @@ resources:
     - App\Ports\Operation\Client\GetOperation
     - App\Ports\Operation\Client\RemoveOperation
     - App\Ports\Operation\Client\ReplaceOperation
+  App\Application\Resource\Client\Transaction\TransactionCollectionSubresource:
+    - App\Ports\Operation\Client\TransactionCollection\GetOperation
+    - App\Ports\Operation\Client\TransactionCollection\InsertOperation
+  App\Application\Resource\Transaction\TransactionResource:
+    - App\Ports\Operation\Transaction\GetOperation
+    - App\Ports\Operation\Transaction\RemoveOperation
+    - App\Ports\Operation\Transaction\ReplaceOperation

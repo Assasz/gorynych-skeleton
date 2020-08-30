@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
+use Doctrine\Common\Collections\Collection;
+
 /**
  * @OA\Schema()
  */
@@ -41,6 +43,15 @@ class Client
      * )
      */
     private string $email;
+
+    /**
+     * @var Transaction[]|Collection<int, Transaction>
+     * @OA\Property(
+     *     type="array",
+     *     @OA\Items(ref="#/components/schemas/Transaction"),
+     * )
+     */
+    private Collection $transactions;
 
     public function getId(): int
     {
@@ -88,5 +99,19 @@ class Client
         $this->email = $email;
 
         return $this;
+    }
+
+    /**
+     * @return Transaction[]|Collection<int, Transaction>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): void
+    {
+        $transaction->setClient($this);
+        $this->transactions->add($transaction);
     }
 }

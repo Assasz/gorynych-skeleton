@@ -1,0 +1,19 @@
+App\Domain\Entity\Transaction:
+  attributes:
+    id:
+      groups: ['read', 'read_single']
+    title:
+      groups: ['read', 'read_single', 'write']
+    client:
+      groups: ['read_single']
+
+App\Domain\Entity\Client:
+  attributes:
+    id:
+      groups: ['read_single']
+    firstname:
+      groups: ['read_single']
+    lastname:
+      groups: ['read_single']
+    email:
+      groups: ['read_single']

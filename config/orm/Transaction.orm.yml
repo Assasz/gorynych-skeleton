@@ -1,0 +1,20 @@
+App\Domain\Entity\Transaction:
+  type: entity
+  repositoryClass: App\Infrastructure\Repository\TransactionRepository
+  table: transactions
+  manyToOne:
+    client:
+      targetEntity: Client
+      inversedBy: transactions
+      joinColumn:
+        name: client_id
+        referencedColumnName: id
+  id:
+    id:
+      type: string
+      generator:
+        strategy: NONE
+  fields:
+    title:
+      type: string
+      length: 240

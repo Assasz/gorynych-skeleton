@@ -105,6 +105,122 @@ paths:
           description: 'The Client resource is removed.'
         '404':
           description: 'Resource not found.'
+  '/clients/{id}/transactions':
+    get:
+      tags:
+        - Client
+      summary: 'Retrieves Transaction collection resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'The Transaction collection resource.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/Transaction' } }
+                type: object
+    post:
+      tags:
+        - Client
+      summary: 'Inserts new Transaction item into collection resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '201':
+          description: 'Inserted Transaction resource IRI.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  data: { type: object, example: { '@id': /transactions/1 } }
+                type: object
+        '400':
+          description: 'Bad request.'
+  '/transactions/{id}':
+    get:
+      tags:
+        - Transaction
+      summary: 'Retrieves given Transaction resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'The Transaction resource.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  data: { type: object, $ref: '#/components/schemas/Transaction' }
+                type: object
+        '404':
+          description: 'Resource not found.'
+    put:
+      tags:
+        - Transaction
+      summary: 'Replaces given Transaction resource with new one.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Transaction'
+      responses:
+        '200':
+          description: 'Replaced Transaction resource IRI.'
+          content:
+            application/json:
+              schema:
+                properties:
+                  data: { type: object, example: { '@id': /transactions/1 } }
+                type: object
+        '400':
+          description: 'Bad request.'
+        '404':
+          description: 'Resource not found.'
+    delete:
+      tags:
+        - Transaction
+      summary: 'Removes given Transaction resource.'
+      parameters:
+        -
+          name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: 'The Transaction resource is removed.'
+        '404':
+          description: 'Resource not found.'
 components:
   schemas:
     Client:
@@ -122,4 +238,22 @@ components:
         email:
           type: string
           example: john@doe.com
+        transactions:
+          description: Transaction>
+          type: array
+          items:
+            $ref: '#/components/schemas/Transaction'
+      type: object
+    Transaction:
+      properties:
+        id:
+          type: string
+          readOnly: true
+          example: XYZ
+        title:
+          type: string
+          example: 'Purchase 123'
+        client:
+          type: object
+          $ref: '#/components/schemas/Client'
       type: object

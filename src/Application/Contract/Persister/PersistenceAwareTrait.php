@@ -6,7 +6,7 @@ namespace App\Application\Contract\Persister;
 
 trait PersistenceAwareTrait
 {
-    private PersisterInterface $persister;
+    protected PersisterInterface $persister;
 
     /**
      * @required

@@ -63,6 +63,9 @@ final class GetOperation extends AbstractOperation
         return $this->resource->retrieve();
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getNormalizationContext(): array
     {
         return [

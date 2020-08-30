@@ -72,6 +72,9 @@ final class ReplaceOperation extends AbstractOperation
         return ['@id' => $this->resource->replace($newTransaction)];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getDeserializationContext(): array
     {
         return [

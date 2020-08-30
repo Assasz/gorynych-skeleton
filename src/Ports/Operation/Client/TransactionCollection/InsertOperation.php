@@ -77,6 +77,9 @@ final class InsertOperation extends AbstractOperation
         return ['@id' => $this->resource->insert($transaction)];
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function getDeserializationContext(): array
     {
         return [

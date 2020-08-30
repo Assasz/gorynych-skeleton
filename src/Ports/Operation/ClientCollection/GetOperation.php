@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Ports\Operation\ClientCollection;
 
 use App\Application\Resource\Client\ClientCollectionResource;
+use App\Domain\Entity\Client;
+use App\Domain\Entity\Transaction;
 use Cake\Collection\Collection;
 use Gorynych\Operation\AbstractOperation;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,5 +53,18 @@ final class GetOperation extends AbstractOperation
     public function __invoke(Request $request): Collection
     {
         return $this->resource->retrieve();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getNormalizationContext(): array
+    {
+        return [
+            'definition' => 'Client',
+            'context' => [
+                'groups' => ['read'],
+            ],
+        ];
     }
 }

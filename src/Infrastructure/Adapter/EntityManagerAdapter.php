@@ -131,6 +131,7 @@ final class EntityManagerAdapter implements EntityManagerAdapterInterface, Persi
         $config->addEntityNamespace('Entity', $entityNamespace);
         $config->setNamingStrategy(new UnderscoreNamingStrategy());
 
+        /** @phpstan-ignore-next-line */
         $connection = DriverManager::getConnection(['url' => EnvAccess::get('DATABASE_URL')], $config);
         $this->entityManager = EntityManager::create($connection, $config);
     }

@@ -14,7 +14,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Setup test environment
-      run: cp .env.test.dist .env.test && mkdir var/sqlite
+      run: cp .env.test.dist .env.test && sudo mkdir var/sqlite
 
     - name: Run API functional tests
       run: ./vendor/bin/phpunit

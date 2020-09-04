@@ -1,0 +1,39 @@
+name: PHP CI
+
+on:
+  push:
+    branches: [ master, demo ]
+  pull_request:
+    branches: [ master, demo ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate
+
+    - name: Cache Composer packages
+      id: composer-cache
+      uses: actions/cache@v2
+      with:
+        path: vendor
+        key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-php-
+    - name: Install dependencies
+      if: steps.composer-cache.outputs.cache-hit != 'true'
+      run: composer install --prefer-dist --no-progress --no-suggest
+    
+    - name: Run PHPStan analyse
+      run: ./vendor/bin/phpstan analyse
+ 
+    - name: Setup test environment
+      run: cp .env.test.dist .env.test && mkdir -p var/sqlite
+
+    - name: Run API functional tests
+      run: ./vendor/bin/phpunit

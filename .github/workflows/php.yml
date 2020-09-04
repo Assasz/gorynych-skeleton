@@ -36,7 +36,6 @@ jobs:
       run: |
         cp .env.test.dist .env.test
         mkdir -p var/sqlite
-        ./vendor/bin/doctrine orm:generate-proxies var/doctrine
 
     - name: Run API functional tests
       run: ./vendor/bin/phpunit

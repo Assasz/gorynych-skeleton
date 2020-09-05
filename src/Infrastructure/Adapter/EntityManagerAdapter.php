@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Adapter;
 
 use App\Application\Contract\Persister\PersisterInterface;
+use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -125,11 +126,16 @@ final class EntityManagerAdapter implements EntityManagerAdapterInterface, Persi
         $mappingPath = EnvAccess::get('PROJECT_DIR') . '/config/orm';
 
         $driver = new SimplifiedYamlDriver([$mappingPath => $entityNamespace]);
+        $cache = new ArrayCache();
 
         $config = Setup::createConfiguration();
         $config->setMetadataDriverImpl($driver);
+        $config->setMetadataCacheImpl($cache);
+        $config->setQueryCacheImpl($cache);
         $config->addEntityNamespace('Entity', $entityNamespace);
         $config->setNamingStrategy(new UnderscoreNamingStrategy());
+        $config->setProxyDir(EnvAccess::get('PROJECT_DIR') . '/var/doctrine');
+        $config->setAutoGenerateProxyClasses('dev' === EnvAccess::get('APP_ENV'));
 
         /** @phpstan-ignore-next-line */
         $connection = DriverManager::getConnection(['url' => EnvAccess::get('DATABASE_URL')], $config);

@@ -124,6 +124,7 @@ final class EntityManagerAdapter implements EntityManagerAdapterInterface, Persi
     {
         $entityNamespace = 'App\Domain\Entity';
         $mappingPath = EnvAccess::get('PROJECT_DIR') . '/config/orm';
+        $env = EnvAccess::get('APP_ENV');
 
         $driver = new SimplifiedYamlDriver([$mappingPath => $entityNamespace]);
         $cache = new ArrayCache();
@@ -135,7 +136,7 @@ final class EntityManagerAdapter implements EntityManagerAdapterInterface, Persi
         $config->addEntityNamespace('Entity', $entityNamespace);
         $config->setNamingStrategy(new UnderscoreNamingStrategy());
         $config->setProxyDir(EnvAccess::get('PROJECT_DIR') . '/var/doctrine');
-        $config->setAutoGenerateProxyClasses('dev' === EnvAccess::get('APP_ENV'));
+        $config->setAutoGenerateProxyClasses('dev' === $env || 'test' === $env);
 
         /** @phpstan-ignore-next-line */
         $connection = DriverManager::getConnection(['url' => EnvAccess::get('DATABASE_URL')], $config);

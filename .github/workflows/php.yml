@@ -32,8 +32,11 @@ jobs:
     - name: Run PHPStan analyse
       run: ./vendor/bin/phpstan analyse
  
-    - name: Setup test environment
-      run: cp .env.test.dist .env.test && mkdir -p var/sqlite
+    - name: Set up test environment
+      run: |
+        cp .env.test.dist .env.test
+        mkdir -p var/sqlite
+        mkdir -p var/doctrine
 
     - name: Run API functional tests
-      run: ./vendor/bin/phpunit
+      run: ./vendor/bin/phpunit --testdox

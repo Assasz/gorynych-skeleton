@@ -138,7 +138,6 @@ final class EntityManagerAdapter implements EntityManagerAdapterInterface, Persi
         $config->setProxyDir(EnvAccess::get('PROJECT_DIR') . '/var/doctrine');
         $config->setAutoGenerateProxyClasses('dev' === $env || 'test' === $env);
 
-        /** @phpstan-ignore-next-line */
         $connection = DriverManager::getConnection(['url' => EnvAccess::get('DATABASE_URL')], $config);
         $this->entityManager = EntityManager::create($connection, $config);
     }

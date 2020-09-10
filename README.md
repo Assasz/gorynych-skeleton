@@ -8,7 +8,7 @@ and Doctrine ORM.
 Via Composer:
 
 ```
-composer create-project assasz/gorynych-skeleton=dev-master
+composer create-project assasz/gorynych-skeleton
 ```
 
 Set up the database:
